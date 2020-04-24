@@ -12,6 +12,7 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
+      morphName: 'Normal',
       dots: 1,
       distortion: 10,
       blotchSize: 20,
@@ -36,6 +37,7 @@ class App extends Component {
     }
     this.p5 = null;
     this.memo = ['Reduced', 'Keyhole', 'Alien Head'];
+    this.textChange = false;
   }
 
   componentDidMount() {
@@ -86,11 +88,21 @@ class App extends Component {
     this.p5.drawSnake(this.state);
   }
 
+  onTextChange = (val) => {
+    this.textChange = true;
+    this.setState({morphName: val})
+  }
+
 
   render() {
-    if ((this.p5 !== null) && (!this.colorPickerShowing())) {
-      this.p5.redraw(this.state);
+    if (this.textChange) {
+      this.textChange = false;
+    } else {
+      if ((this.p5 !== null) && (!this.colorPickerShowing())) {
+        this.p5.redraw(this.state);
+      }      
     }
+
     return (
       <div className="App">
         <div className="App-header">
@@ -99,6 +111,14 @@ class App extends Component {
 
         <div className="ControlPanel">
 
+
+          <div className="ControlItem">
+            <div className="ControlLabel">Morph Name</div>
+            <input className="ControlText" type="text" value={this.state.morphName} onChange={(e)=>{this.onTextChange(e.target.value);}} />
+          </div>
+
+          <div className="ControlHR" />
+          <div className="ControlHR" />
 
           <div className="ControlItem">
             <div className="ControlLabel">Body Back Color</div>
@@ -153,10 +173,10 @@ class App extends Component {
 */}
 
 
-
+          <div className="ControlHR" />
 
           <div className="ControlItem">
-            <div className="ControlLabel">Blotch Position</div>
+            <div className="ControlLabel">Blotch Height</div>
             <Slider
               defaultValue={this.state.blotchPos}
               step={1}
@@ -168,7 +188,7 @@ class App extends Component {
           </div>
 
           <div className="ControlItem">
-            <div className="ControlLabel">Blotch Size</div>
+            <div className="ControlLabel">Blotch Width</div>
             <Slider
               defaultValue={this.state.blotchSize}
               step={1}
@@ -241,6 +261,8 @@ class App extends Component {
             <div className="ColorValue">{this.state.colBlotchBelly}</div>
           </div>          
 
+          <div className="ControlHR" />
+
           <div className="ControlItem">
             <div className="ControlLabel">Eye Color</div>
             <div className="ControlColor" onClick={ ()=>{this.onColorClick('cpColEye');} }>
@@ -254,53 +276,6 @@ class App extends Component {
           </div>          
 
 
-{/*
-
-          <div className="ControlItem">
-            <div className="ControlLabel">Blotch Color</div>
-            <div className="ControlColor" onClick={ this.onColorClick }>
-              <div className="ControlColorInner" style={{
-                background: `rgba(${ this.state.color.r }, ${ this.state.color.g }, ${ this.state.color.b }, ${ this.state.color.a })`,
-              }}/>
-            </div>
-            { this.state.displayColorPicker ? <div className="ColorPickerPopup">
-              <div className="ColorPickerCover" onClick={ this.onColorClose }/>
-              <ChromePicker color={ this.state.color } onChange={ this.onColorChange } />
-            </div> : null }
-            <div className="ColorValue">{this.state.dots}</div>
-          </div>          
-
-          <div className="ControlItem">
-            <div className="ControlLabel">Blotch Outline Color</div>
-            <div className="ControlColor" onClick={ this.onColorClick }>
-              <div className="ControlColorInner" style={{
-                background: `rgba(${ this.state.color.r }, ${ this.state.color.g }, ${ this.state.color.b }, ${ this.state.color.a })`,
-              }}/>
-            </div>
-            { this.state.displayColorPicker ? <div className="ColorPickerPopup">
-              <div className="ColorPickerCover" onClick={ this.onColorClose }/>
-              <ChromePicker color={ this.state.color } onChange={ this.onColorChange } />
-            </div> : null }
-            <div className="ColorValue">{this.state.dots}</div>
-          </div>          
-
-          <div className="ControlItem">
-            <div className="ControlLabel">Blotch Belly Color</div>
-            <div className="ControlColor" onClick={ this.onColorClick }>
-              <div className="ControlColorInner" style={{
-                background: `rgba(${ this.state.color.r }, ${ this.state.color.g }, ${ this.state.color.b }, ${ this.state.color.a })`,
-              }}/>
-            </div>
-            { this.state.displayColorPicker ? <div className="ColorPickerPopup">
-              <div className="ColorPickerCover" onClick={ this.onColorClose }/>
-              <ChromePicker color={ this.state.color } onChange={ this.onColorChange } />
-            </div> : null }
-            <div className="ColorValue">{this.state.dots}</div>
-          </div>          
-*/}
-
-
-
           <div className="ControlItem">
             <div className="ControlLabel">Pattern Distortion</div>
             <Slider
@@ -312,6 +287,9 @@ class App extends Component {
             />
             <div className="ControlValue">{this.state.distortion}</div>
           </div>
+
+          <div className="ControlHR" />
+          <div className="ControlHR" />
 
           <div className="ControlItem">
             <button className="ControlRendering" onClick={this.onRenderingClick}>Rendering</button>
