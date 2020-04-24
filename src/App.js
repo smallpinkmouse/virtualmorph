@@ -313,9 +313,9 @@ class App extends Component {
             <div className="ControlValue">{this.state.distortion}</div>
           </div>
 
-          <div className="ControlRendering">
-            <button onClick={this.onRenderingClick}>Rendering</button>
-            <div id="progress">OK</div>
+          <div className="ControlItem">
+            <button className="ControlRendering" onClick={this.onRenderingClick}>Rendering</button>
+            <div id="progress"></div>
           </div>
 
 

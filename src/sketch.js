@@ -42,7 +42,7 @@ const sketch = (p) => {
 
   p.drawSnake = function(state) {
     lastState = state;
-    bp.drawSnake2(state.colBody, state.colBodyBelly, state.colEye);
+    bp.drawSnake(state.colBody, state.colBodyBelly, state.colEye);
   }
 };
 
@@ -256,28 +256,6 @@ class BallPython {
         let nearestBlotch = Math.floor(x / blotchInterval);
         let bl = this.blotches[nearestBlotch];
         bl.drawPixel(this.x, this.y, this.bodyHeight, x, y, this.alienFaceColor1, this.alienFaceColor2, this.blotchDotColor, this.PatternNoise);
-
-
-        // let nearestDist = this.blotches[nearestBlotch].distance(x, y, this.PatternNoise);
-
-        // if (nearestDist < this.blotches[nearestBlotch].size) {
-        //   // inner blotches
-        //   let col = this.blotches[nearestBlotch].getColor(nearestDist, this.alienFaceColor1, this.blotchDotColor);
-        //   p5.stroke(col);
-        //   p5.strokeWeight(1);
-        //   p5.point(this.x + x, this.y + y);
-
-        // } else if (nearestDist < this.blotches[nearestBlotch].size + 20) {
-        //   // outline blotches
-        //   let rate = (nearestDist - this.blotches[nearestBlotch].size) / 20;
-        //   let col = p5.lerpColor(this.alienFaceColor1, this.alienFaceColor2, rate);
-        //   col = p5.color(p5.red(col), p5.blue(col), p5.green(col), 55 + 200 * (1 - rate));
-        //   p5.stroke(col);
-        //   p5.strokeWeight(1);
-        //   p5.point(this.x + x, this.y + y);          
-        // }
-
-
       }
     }
   }
@@ -311,188 +289,8 @@ class BallPython {
     return s + (e - s) * p;
   }
 
+
   drawSnake(col1, col2, colEye) {
-    let p5 = this.p5;
-
-    // p5.strokeWeight(3);
-    // p5.stroke(p5.color(255,255,0));
-    // p5.line(this.x, this.y, this.x + this.bodyLength, this.y);
-
-    p5.erase();
-    p5.rect(0, 350, 1000, 400);
-    p5.noErase();
-
-    let px;
-    let py;
-    let py0;
-    let theta1;
-
-    p5.noStroke();
-    p5.fill(col1);
-    p5.rect(this.x, this.y, this.bodyLength, 5);
-
-
-    for (let x = 0; x < this.bodyLength; x++) {
-      theta1 = (Math.PI * 3.0 * x / this.bodyLength + Math.PI * 0.1) * 1.2;
-      let rate = Math.max((this.bodyLength - x) / this.bodyLength, 0.3);
-      let rate3 = x / this.bodyLength;
-
-      document.querySelector('#progress').textContent = 'calculating...';
-
-      let rate2 = (rate3 > 0.7) ? this.lerp(1, 0.8, (rate3 - 0.7) / 0.3) : 1;
-//      let rate2 = (rate3 > 0.7) ? 0.5 : 1;
-
-      let tail = (rate3 < 0.4) ? this.lerp(0, 1, rate3 / 0.4) : 1;
-      let neck = (rate3 > 0.8) ? this.lerp(0, 1, rate3 / 0.8) : 1;
-
-//      for (let y = 0; y < 125; y++) {
-      for (let y = 0; y < this.bodyHeight; y++) {
-        let theta2 = Math.PI * y / this.bodyHeight;
-        // let px = 50 + Math.sin(theta2) * 30 + x + Math.sin(theta1) * 50;
-        // let py = 400 - Math.cos(theta2) * 50 + Math.cos(theta1) * 100;
-        px = 410 + Math.sin(theta1) * 0.35 * (x + y * 2 * tail + 500) * rate + 0 + 0 * (1 - tail) - 50 + 50 * neck;
-        py = 500 + Math.cos(theta1) * 0.8 * (y * tail + 150) * rate + 50 - 50 * tail + 200 - 200 * neck;
-
-        if (y === 0) {
-          if (Math.cos(theta1) < 0) {
-            let shadow = p5.color(0, 0, 0, 30);
-            p5.strokeWeight(8);
-            p5.stroke(shadow);
-            p5.line(px, py, px, py + 10);
-          }
-        }
-
-//        let gy = Math.abs((Math.cos(theta1 / 2) - 0.5)) * y * 0.8;
-        let gy = Math.abs(-Math.sin(theta1 / 3 - ((1-rate2) * 5)) * 80 + y / 2  + 10 + Math.cos(theta1) * 40);
-//        let gy = y;
-
-//        let col = p5.get(this.x + (x * 5 * rate2) % this.bodyLength, this.y + gy);
-        let col = p5.get(this.x + (x * 5 * rate2) % this.bodyLength, this.y + gy);
-
-        p5.strokeWeight(4);
-        p5.stroke(col);
-        p5.point(px, py);
-
-      }
-
-      if (Math.cos(theta1) > 0) {
-        let shadow = p5.color(0, 0, 0, 30);
-        p5.strokeWeight(8);
-        p5.stroke(shadow);
-        p5.line(px, py, px, py + 10);          
-      }
-    }
-
-    let hx = 370;
-    let hy = 500;
-
-    console.log(col1);
-    console.log(col2);
-    let bcol = p5.lerpColor(p5.color(col1), p5.color(col2), 0.6);
-
-    let scol = p5.lerpColor(p5.color(col1), p5.color(0), 0.2);
-
-    p5.noStroke();
-
-    p5.push();
-    p5.translate(hx, hy);
-    p5.rotate(p5.PI / 10);
-
-    // shadow
-    p5.push();
-    p5.translate(-15, 15);
-    p5.rotate(-0.2);
-    p5.fill(0, 0, 0, 80);
-    p5.ellipse(0, 0, 128, 55);
-    p5.pop();
-
-    // back head
-//    p5.fill('blue');
-    p5.fill(scol);
-    p5.fill(p5.color(0, 0, 0, 100));
-    p5.arc(-35-8, 10-2, 100+2, 100, p5.PI, 0);
-    p5.fill(bcol);
-    p5.arc(-35, 10, 100, 100, p5.PI, 0);
-    p5.quad(-20, -30,    45, -15,   35, 0,   -40, 0);
-
-    // front head
-    p5.noStroke();
-//    p5.ellipse(0, 0, 100, 45);
-  //  p5.fill('yellow');
-    p5.fill(col1);
-    p5.ellipse(35, -7, 23, 23);
-    p5.ellipse(35, -5, 23, 23);
-
-    //p5.fill('green');
-    p5.fill(scol);
-    p5.arc(5, -8, 80, 80, 0, p5.PI);
-    p5.fill(col1);
-    p5.arc(5, -8-3, 80, 80, 0, p5.PI);
-    //p5.fill('red');
-//    p5.fill(scol);
-//    p5.ellipse(-55, 5, 65, 65);
-    p5.fill(col1);
-    p5.ellipse(-55, 5, 65, 65-2);
-
-    p5.fill(scol);
-    p5.quad(-20, -30,    45, -15,   25, 25,   -40, 35);
-    p5.fill(col1);
-    p5.quad(-20, -30,    45, -15,   25, 25-3,   -40, 35-3);
-
-
-    p5.fill(bcol);
-//    p5.fill('blue');
-//    p5.quad(-60, -30,    45, -15,   35, -10,   -80, -10);
-
-    p5.beginShape();
-    p5.vertex(-60, -30);
-    p5.vertex(-20, -30);
-    p5.vertex( 45, -15);
-    p5.vertex( 48, -8);
-    p5.vertex( 38, -0);
-    p5.vertex( 25, -5);
-    p5.vertex( -3, -2);
-    p5.vertex( -15, -8);
-    p5.vertex( -60, -3);
-    p5.vertex( -70, -0);
-    p5.vertex( -75, 15);
-    p5.vertex( -88, 13);
-    p5.vertex( -88, -10);
-    p5.vertex(-85, -20);
-    p5.endShape();
-  
-    p5.beginShape();
-    p5.vertex(-65, 10);
-    p5.vertex(-35, 0);
-    p5.vertex(-5, 5);
-    p5.vertex( 0, 5);
-    p5.vertex(40, -5);
-    p5.vertex(42, 5);
-    p5.vertex(35, 10);
-    p5.vertex(25, 15);
-    p5.vertex(-35, 10);
-    p5.vertex(-55, 25);
-
-//    p5.vertex(-30, 10);
-
-    p5.vertex(-65, 20);
-    p5.endShape();
-
-
-
-    p5.pop();
-
-    // // eyes
-    p5.fill(colEye);
-    p5.ellipse(hx - 20, hy + 0, 15, 15);
-    p5.fill(100, 100, 100);
-    p5.ellipse(hx - 20 - 0, hy + 0 - 3, 8, 8);
-
-  }
-
-
-
-  drawSnake2(col1, col2, colEye) {
     let p5 = this.p5;
 
     // p5.strokeWeight(3);
