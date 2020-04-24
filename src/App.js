@@ -176,19 +176,7 @@ class App extends Component {
           <div className="ControlHR" />
 
           <div className="ControlItem">
-            <div className="ControlLabel">Blotch Height</div>
-            <Slider
-              defaultValue={this.state.blotchPos}
-              step={1}
-              min={0}
-              max={70}
-              onAfterChange={(value) => {this.setState({blotchPos: value});}}
-            />
-            <div className="ControlValue">{this.state.blotchPos}</div>
-          </div>
-
-          <div className="ControlItem">
-            <div className="ControlLabel">Blotch Width</div>
+            <div className="ControlLabel">Blotch Size</div>
             <Slider
               defaultValue={this.state.blotchSize}
               step={1}
@@ -209,6 +197,18 @@ class App extends Component {
               onAfterChange={(value) => {this.setState({bottomSize: value});}}
             />
             <div className="ControlValue">{this.state.bottomSize}</div>
+          </div>
+
+          <div className="ControlItem">
+            <div className="ControlLabel">Blotch Height</div>
+            <Slider
+              defaultValue={this.state.blotchPos}
+              step={1}
+              min={0}
+              max={70}
+              onAfterChange={(value) => {this.setState({blotchPos: value});}}
+            />
+            <div className="ControlValue">{this.state.blotchPos}</div>
           </div>
 
           <div className="ControlItem">
