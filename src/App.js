@@ -6,7 +6,8 @@ import 'rc-slider/assets/index.css';
 import { ChromePicker } from 'react-color';
 
 import P5 from 'p5';
-import sketch from './sketch';
+import sketchEditor from './sketchEditor';
+import sketchRender from './sketchRender';
 
 class App extends Component {
   constructor() {
@@ -36,12 +37,15 @@ class App extends Component {
       cpColEye: false,
     }
     this.p5 = null;
+    this.p5r = null;
     this.memo = ['Reduced', 'Keyhole', 'Alien Head'];
     this.textChange = false;
   }
 
   componentDidMount() {
-    this.p5 = new P5(sketch);
+    this.p5 = new P5(sketchEditor);
+    this.p5r = new P5(sketchRender);
+
     this.p5.redraw(this.state);
   }
 
@@ -85,7 +89,7 @@ class App extends Component {
   };
 
   onRenderingClick = () => {
-    this.p5.drawSnake(this.state);
+    this.p5.drawSnake(this.state, this.p5r);
   }
 
   onTextChange = (val) => {
@@ -106,12 +110,13 @@ class App extends Component {
     return (
       <div className="App">
         <div className="App-header">
-          <h2>Ball Python Virtual Morph Maker</h2>
+          Ball Python Virtual Morph Maker
         </div>
 
+        <div id="CanvasEditor"></div>
+        <div id="CanvasRender"></div>
+
         <div className="ControlPanel">
-
-
           <div className="ControlItem">
             <div className="ControlLabel">Morph Name</div>
             <input className="ControlText" type="text" value={this.state.morphName} onChange={(e)=>{this.onTextChange(e.target.value);}} />

@@ -241,16 +241,17 @@ class BallPython {
   }
 
 
-  drawSnake(col1, col2, colEye) {
+  drawSnake(target, col1, col2, colEye) {
     let p5 = this.p5;
+    let p5r = target;
 
     // p5.strokeWeight(3);
     // p5.stroke(p5.color(255,255,0));
     // p5.line(this.x, this.y, this.x + this.bodyLength, this.y);
 
-    p5.noStroke();
-    p5.fill('white');
-    p5.rect(0, 300, 1000, 500);
+    p5r.noStroke();
+    p5r.fill(p5r.color(50, 50, 50));
+    p5r.rect(0, 0, 500, 500);
 
     document.querySelector('#progress').textContent = 'calculating...';
 
@@ -269,7 +270,7 @@ class BallPython {
         p5.arc(0, 0, 280, 100, p5.PI + 0.3, -0.3);
         p5.pop();
 
-        this.drawHead(col1, col2, colEye);
+        this.drawHead(p5r, col1, col2, colEye);
         document.querySelector('#progress').textContent = '100%';
         return;
       }
@@ -295,15 +296,15 @@ class BallPython {
       for (let y = 0; y < this.bodyHeight; y++) {
         // let px = 50 + Math.sin(theta2) * 30 + x + Math.sin(theta1) * 50;
         // let py = 400 - Math.cos(theta2) * 50 + Math.cos(theta1) * 100;
-        px = 410 + Math.sin(theta1) * 0.35 * (x + y * 2 * tail + 500) * rate + 0 + 0 * (1 - tail) - 50 + 50 * neck;
-        py = 500 + Math.cos(theta1) * 0.8 * (y * tail + 150) * rate + 50 - 50 * tail + 200 - 200 * neck;
+        px = 265 + Math.sin(theta1) * 0.35 * (x + y * 2 * tail + 500) * rate + 0 + 0 * (1 - tail) - 50 + 50 * neck;
+        py = 255 + Math.cos(theta1) * 0.8 * (y * tail + 150) * rate + 50 - 50 * tail + 200 - 200 * neck;
 
         if (y === 0) {
           if (Math.cos(theta1) < 0) {
-            let shadow = p5.color(0, 0, 0, 30);
-            p5.strokeWeight(4);
-            p5.stroke(shadow);
-            p5.line(px, py, px, py + 10);
+            let shadow = p5r.color(0, 0, 0, 30);
+            p5r.strokeWeight(4);
+            p5r.stroke(shadow);
+            p5r.line(px, py, px, py + 10);
           }
         }
 
@@ -313,26 +314,26 @@ class BallPython {
 
         let col = p5.get(this.x + (x * 5 * rate2) % this.bodyLength, this.y + gy + 0.5);
 
-        p5.strokeWeight(5);
-        p5.stroke(col);
-        p5.point(px, py);
+        p5r.strokeWeight(5);
+        p5r.stroke(col);
+        p5r.point(px, py);
       }
 
       if (Math.cos(theta1) > 0) {
-        let shadow = p5.color(0, 0, 0, 30);
-        p5.strokeWeight(4);
-        p5.stroke(shadow);
-        p5.line(px, py, px, py + 10);          
+        let shadow = p5r.color(0, 0, 0, 30);
+        p5r.strokeWeight(4);
+        p5r.stroke(shadow);
+        p5r.line(px, py, px, py + 10);          
       }
 
       g_x = x + 1;
     }, 10);
   }
 
-  drawHead(col1, col2, colEye) {
-    let p5 = this.p5;
-    let hx = 370;
-    let hy = 500;
+  drawHead(target, col1, col2, colEye) {
+    let p5 = target;
+    let hx = 230;
+    let hy = 260;
 
     console.log(col1);
     console.log(col2);

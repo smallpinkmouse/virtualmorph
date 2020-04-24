@@ -1,11 +1,3 @@
-// ボディカラー１、ボディカラー２
-// ブロッチカラー1、ブロッチカラー2
-// ストライプカラー１、ストライプカラー2
-// 腹カラー
-// ストライプ形状
-// エイリアンアイ　0..2
-// 模様の乱れ強さ
-// シュガー
 
 import BallPython from './BallPython';
 
@@ -15,8 +7,10 @@ var lastState;
 const sketch = (p) => {
   p.setup = function() {
     console.log('setup');
-    p.createCanvas(750, 750);
+    let canvas = p.createCanvas(700, 200);
+    canvas.parent('CanvasEditor');
     p.background(p.color(200, 200, 200));
+
     bp = new BallPython(p);
     p.redraw(lastState);
   }
@@ -32,15 +26,15 @@ const sketch = (p) => {
     bp.initBlotches(state.blotchSize, state.blotchPos);
     bp.setBottomSize(state.bottomSize);
     bp.setDots(state.dots);
-    bp.body(30, 50, state.colBody, state.colBodyBack, state.colBodyBelly);
+    bp.body(0, 0, state.colBody, state.colBodyBack, state.colBodyBelly);
     bp.drawBlotches(state.blotchPos);
 
 //    bp.drawSnake(state.colBody, state.colBodyBelly, state.colEye);
   }
 
-  p.drawSnake = function(state) {
+  p.drawSnake = function(state, target) {
     lastState = state;
-    bp.drawSnake(state.colBody, state.colBodyBelly, state.colEye);
+    bp.drawSnake(target, state.colBody, state.colBodyBelly, state.colEye);
   }
 };
 
