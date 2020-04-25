@@ -4,7 +4,7 @@ const sketch = (p) => {
     let canvas = p.createCanvas(500, 500);
     canvas.parent('CanvasRender');
 
-    p.background(p.color(250, 100, 100));
+    p.background(p.color(230, 230, 230));
   }
 
   p.draw = function() {
@@ -12,5 +12,3 @@ const sketch = (p) => {
 };
 
 export default sketch;
-
-

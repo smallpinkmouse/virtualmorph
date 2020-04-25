@@ -32,9 +32,9 @@ const sketch = (p) => {
 //    bp.drawSnake(state.colBody, state.colBodyBelly, state.colEye);
   }
 
-  p.drawSnake = function(state, target) {
+  p.drawSnake = function(target, state) {
     lastState = state;
-    bp.drawSnake(target, state.colBody, state.colBodyBelly, state.colEye);
+    bp.drawSnake(target, state);
   }
 };
 

@@ -26,7 +26,11 @@ class App extends Component {
       colBlotch: '#b4826e',
       colBlotchOutline: '#0a0303',
       colBlotchBelly: '#c8a080',
+      colBlotchDot: '#533038',
+
       colEye: '#101010',
+      colBackground: '#f0f0f0',
+      colBackgroundRGBA: this.hex2rgba('#f0f0f0', 1),
 
       cpColBody: false,
       cpColBodyBack: false,
@@ -35,7 +39,9 @@ class App extends Component {
       cpColBlotchOutline: false,
       cpColBlotchBelly: false,
       cpColEye: false,
+      cpColBackground: false,
     }
+
     this.p5 = null;
     this.p5r = null;
     this.memo = ['Reduced', 'Keyhole', 'Alien Head'];
@@ -49,6 +55,22 @@ class App extends Component {
     this.p5.redraw(this.state);
   }
 
+  hex2rgba(hex, alpha) {
+    let r = hex.match(/^#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i);
+    let c = null;
+    if (r) {
+        c = r.slice(1,4).map(function(x) { return parseInt(x, 16) });
+    }
+    r = hex.match(/^#([0-9a-f])([0-9a-f])([0-9a-f])$/i);
+    if (r) {
+        c = r.slice(1,4).map(function(x) { return 0x11 * parseInt(x, 16) });
+    }
+    if (!c) {
+        return null;
+    }
+    return `rgba(${c[0]}, ${c[1]}, ${c[2]}, ${alpha})`;
+}
+
   colorPickerShowing() {
     return this.state.cpColBody ? true :
       this.state.cpColBodyBack ? true :
@@ -57,6 +79,7 @@ class App extends Component {
       this.state.cpColBlotchOutline ? true :
       this.state.cpColBlotchBelly ? true :
       this.state.cpColEye ? true :
+      this.state.cpColBackground ? true :
       false;
   }
 
@@ -68,7 +91,8 @@ class App extends Component {
       cpColBlotch: false,
       cpColBlotchOutline: false,
       cpColBlotchBelly: false,
-      cpColEye: false
+      cpColEye: false,
+      cpColBackground: false,
     }
     newState[picker] = bool;
     this.setState(newState);
@@ -88,8 +112,16 @@ class App extends Component {
     this.setState(newState);
   };
 
+  onBgColorChange = (color) => {
+    let newState = {
+      colBackground: color.hex,
+      colBackgroundRGBA: this.hex2rgba(color.hex, color.rgb.a)
+    };
+    this.setState(newState);
+  };
+
   onRenderingClick = () => {
-    this.p5.drawSnake(this.state, this.p5r);
+    this.p5.drawSnake(this.p5r, this.state);
   }
 
   onTextChange = (val) => {
@@ -160,25 +192,22 @@ class App extends Component {
             </div> : null }
             <div className="ColorValue">{this.state.colBodyBelly}</div>
           </div>          
-{/*
 
           <div className="ControlItem">
-            <div className="ControlLabel">Body Belly Color</div>
-            <div className="ControlColor" onClick={ this.onColorClick }>
-              <div className="ControlColorInner" style={{
-                background: `rgba(${ this.state.color.r }, ${ this.state.color.g }, ${ this.state.color.b }, ${ this.state.color.a })`,
-              }}/>
-            </div>
-            { this.state.displayColorPicker ? <div className="ColorPickerPopup">
-              <div className="ColorPickerCover" onClick={ this.onColorClose }/>
-              <ChromePicker color={ this.state.color } onChange={ this.onColorChange } />
-            </div> : null }
-            <div className="ColorValue">{this.state.dots}</div>
-          </div>          
-*/}
+            <div className="ControlLabel">Pattern Distortion</div>
+            <Slider
+              defaultValue={this.state.distortion}
+              step={1}
+              min={0}
+              max={20}
+              onAfterChange={(value) => {this.setState({distortion: value});}}
+            />
+            <div className="ControlValue">{this.state.distortion}</div>
+          </div>
 
 
           <div className="ControlHR" />
+
 
           <div className="ControlItem">
             <div className="ControlLabel">Blotch Size</div>
@@ -214,19 +243,6 @@ class App extends Component {
               onAfterChange={(value) => {this.setState({blotchPos: value});}}
             />
             <div className="ControlValue">{this.state.blotchPos}</div>
-          </div>
-
-          <div className="ControlItem">
-            <div className="ControlLabel">Blotch Dots</div>
-            <Slider
-              defaultValue={this.state.dots}
-              step={1}
-              min={0}
-              max={2}
-              onAfterChange={(value) => {this.setState({dots: value});}}
-            />
-            <div className="ControlValue">{this.state.dots}</div>
-            <div className="ControlMemo">{this.memo[this.state.dots]}</div>
           </div>
 
 
@@ -266,6 +282,32 @@ class App extends Component {
             <div className="ColorValue">{this.state.colBlotchBelly}</div>
           </div>          
 
+          <div className="ControlItem">
+            <div className="ControlLabel">Blotch Dots</div>
+            <Slider
+              defaultValue={this.state.dots}
+              step={1}
+              min={0}
+              max={2}
+              onAfterChange={(value) => {this.setState({dots: value});}}
+            />
+            <div className="ControlValue">{this.state.dots}</div>
+            <div className="ControlMemo">{this.memo[this.state.dots]}</div>
+          </div>
+
+          <div className="ControlItem">
+            <div className="ControlLabel">Blotch Dot Color</div>
+            <div className="ControlColor" onClick={ ()=>{this.onColorClick('cpColBlotchDot');} }>
+              <div className="ControlColorInner" style={{ background: this.state.colBlotchDot }} />
+            </div>
+            { this.state.cpColBlotchDot ? <div className="ColorPickerPopup">
+              <div className="ColorPickerCover" onClick={ ()=>{this.onColorClose('cpColBlotchDot');} }/>
+              <ChromePicker color={ this.state.colBlotchDot } onChange={ (color)=>{this.onColorChange('colBlotchDot', color.hex);} } />
+            </div> : null }
+            <div className="ColorValue">{this.state.colBlotchDot}</div>
+          </div>          
+
+
           <div className="ControlHR" />
 
           <div className="ControlItem">
@@ -280,18 +322,18 @@ class App extends Component {
             <div className="ColorValue">{this.state.colEye}</div>
           </div>          
 
-
           <div className="ControlItem">
-            <div className="ControlLabel">Pattern Distortion</div>
-            <Slider
-              defaultValue={this.state.distortion}
-              step={1}
-              min={0}
-              max={20}
-              onAfterChange={(value) => {this.setState({distortion: value});}}
-            />
-            <div className="ControlValue">{this.state.distortion}</div>
-          </div>
+            <div className="ControlLabel">Background Color</div>
+            <div className="ControlColor" onClick={ ()=>{this.onColorClick('cpColBackground');} }>
+              <div className="ControlColorInner" style={{ background: this.state.colBackgroundRGBA }} />
+            </div>
+            { this.state.cpColBackground ? <div className="ColorPickerPopup">
+              <div className="ColorPickerCover" onClick={ ()=>{this.onColorClose('cpColBackground');} }/>
+              <ChromePicker color={ this.state.colBackgroundRGBA } onChange={ (color)=>{this.onBgColorChange(color);} } />
+            </div> : null }
+            <div className="ColorValue">{this.state.colBackground}</div>
+          </div>          
+
 
           <div className="ControlHR" />
           <div className="ControlHR" />

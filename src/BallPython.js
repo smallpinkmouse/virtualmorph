@@ -241,7 +241,7 @@ class BallPython {
   }
 
 
-  drawSnake(target, col1, col2, colEye) {
+  drawSnake(target, state) {
     let p5 = this.p5;
     let p5r = target;
 
@@ -249,8 +249,13 @@ class BallPython {
     // p5.stroke(p5.color(255,255,0));
     // p5.line(this.x, this.y, this.x + this.bodyLength, this.y);
 
+
+    p5r.erase();
+    p5r.rect(0, 0, 500, 500);
+    p5r.noErase();
+
     p5r.noStroke();
-    p5r.fill(p5r.color(50, 50, 50));
+    p5r.fill(state.colBackgroundRGBA);
     p5r.rect(0, 0, 500, 500);
 
     document.querySelector('#progress').textContent = 'calculating...';
@@ -270,7 +275,7 @@ class BallPython {
         p5.arc(0, 0, 280, 100, p5.PI + 0.3, -0.3);
         p5.pop();
 
-        this.drawHead(p5r, col1, col2, colEye);
+        this.drawHead(p5r, state.colBody, state.colBlotch, state.colBlotchOutline, state.colEye);
         document.querySelector('#progress').textContent = '100%';
         return;
       }
@@ -330,14 +335,14 @@ class BallPython {
     }, 10);
   }
 
-  drawHead(target, col1, col2, colEye) {
+  drawHead(target, col0, col1, col2, colEye) {
     let p5 = target;
     let hx = 230;
     let hy = 260;
 
     console.log(col1);
     console.log(col2);
-    let bcol = p5.lerpColor(p5.color(col1), p5.color(col2), 0.6);
+    let bcol = p5.lerpColor(p5.color(col0), p5.color(col2), 0.4);
 
     let scol = p5.lerpColor(p5.color(col1), p5.color(0), 0.2);
 
