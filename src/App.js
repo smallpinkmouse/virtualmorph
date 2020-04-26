@@ -17,8 +17,8 @@ class App extends Component {
       dots: 1,
       distortion: 10,
       blotchSize: 20,
-      blotchPos: 60,
-      bottomSize: 0.5,
+      blotchPos: 20,
+      bottomSize: 10,
 
       colBody: '#965a5a',
       colBodyBack: '#533038',
@@ -225,9 +225,9 @@ class App extends Component {
             <div className="ControlLabel">Blotch Bottom Size</div>
             <Slider
               defaultValue={this.state.bottomSize}
-              step={0.1}
-              min={0.1}
-              max={1.0}
+              step={1}
+              min={0}
+              max={30}
               onAfterChange={(value) => {this.setState({bottomSize: value});}}
             />
             <div className="ControlValue">{this.state.bottomSize}</div>

@@ -19,17 +19,13 @@ const sketch = (p) => {
     lastState = state;
     console.log('redraw');
     if (bp === undefined) return;
-    //if (state == undefined) return;
-    console.log(state);
+    if (state == undefined) return;
 
     bp.PatternNoise = state.distortion;
-    bp.initBlotches(state.blotchSize, state.blotchPos);
-    bp.setBottomSize(state.bottomSize);
+    bp.initBlotches(state.blotchSize, state.bottomSize, state.blotchPos);
     bp.setDots(state.dots);
-    bp.body(0, 0, state.colBody, state.colBodyBack, state.colBodyBelly);
-    bp.drawBlotches(state.blotchPos);
-
-//    bp.drawSnake(state.colBody, state.colBodyBelly, state.colEye);
+    bp.drawBody(0, 0, state.colBody, state.colBodyBack, state.colBodyBelly);
+    bp.drawBlotches(state);
   }
 
   p.drawSnake = function(target, state) {
