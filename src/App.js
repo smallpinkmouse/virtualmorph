@@ -19,15 +19,18 @@ class App extends Component {
       blotchSize: 20,
       blotchPos: 20,
       bottomSize: 10,
+      dorsalBreak: 3,
+      dorsalWidth: 20,
 
       colBody: '#965a5a',
       colBodyBack: '#533038',
       colBodyBelly: '#1e0a0a',
       colBlotch: '#b4826e',
       colBlotchOutline: '#351010',
-//      colBlotchBelly: '#c8a080',
-      colBlotchBelly: '#dabfbf',
+      colBlotchBelly: '#c8a080',
       colBlotchDot: '#312121',
+
+      colDorsal: '#b4826e',
 
       colEye: '#101010',
       colBackground: '#f0f0f0',
@@ -40,6 +43,7 @@ class App extends Component {
       cpColBlotchOutline: false,
       cpColBlotchBelly: false,
       cpColBlotchDot: false,
+      cpColDorsal: false,
       cpColEye: false,
       cpColBackground: false,
     }
@@ -81,6 +85,7 @@ class App extends Component {
       this.state.cpColBlotchOutline ? true :
       this.state.cpColBlotchBelly ? true :
       this.state.cpColBlotchDot ? true :
+      this.state.cpColDorsal ? true :
       this.state.cpColEye ? true :
       this.state.cpColBackground ? true :
       false;
@@ -95,6 +100,7 @@ class App extends Component {
       cpColBlotchOutline: false,
       cpColBlotchBelly: false,
       cpColBlotchDot: false,
+      cpColDorsal: false,
       cpColEye: false,
       cpColBackground: false,
     }
@@ -315,6 +321,46 @@ class App extends Component {
             <div className="ColorValue">{this.state.colBlotchDot}</div>
           </div>          
 
+          <div className="ControlHR" />
+
+          <div className="ControlItem">
+            <div className="ControlLabel">Dorsal Color</div>
+            <div className="ControlColor" onClick={ ()=>{this.onColorClick('cpColDorsal');} }>
+              <div className="ControlColorInner" style={{ background: this.state.colDorsal }} />
+            </div>
+            { this.state.cpColDorsal ? <div className="ColorPickerPopup">
+              <div className="ColorPickerCover" onClick={ ()=>{this.onColorClose('cpColDorsal');} }/>
+              <ChromePicker color={ this.state.colDorsal } onChange={ (color)=>{this.onColorChange('colDorsal', color.hex);} } />
+            </div> : null }
+            <div className="ColorValue">{this.state.colDorsal}</div>
+          </div>          
+
+
+          <div className="ControlItem">
+            <div className="ControlLabel">Dorsal Break</div>
+            <Slider
+              defaultValue={this.state.dorsalBreak}
+              step={1}
+              min={0}
+              max={5}
+              onAfterChange={(value) => {this.setState({dorsalBreak: value});}}
+            />
+            <div className="ControlValue">{this.state.dorsalBreak}</div>
+            <div className="ControlMemo">{this.memo[this.state.dorsalBreak]}</div>
+          </div>
+
+          <div className="ControlItem">
+            <div className="ControlLabel">Dorsal Width</div>
+            <Slider
+              defaultValue={this.state.dorsalWidth}
+              step={1}
+              min={0}
+              max={50}
+              onAfterChange={(value) => {this.setState({dorsalWidth: value});}}
+            />
+            <div className="ControlValue">{this.state.dorsalWidth}</div>
+            <div className="ControlMemo">{this.memo[this.state.dorsalWidth]}</div>
+          </div>
 
           <div className="ControlHR" />
 

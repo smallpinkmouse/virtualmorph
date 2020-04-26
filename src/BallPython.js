@@ -221,6 +221,72 @@ class BallPython {
     }
   }
 
+  drawDorsal(state) {
+//    if (this.blotches.length === 0) return;
+
+    let colDorsal = this.p5.color(state.colDorsal);
+    let dorsalWidth = state.dorsalWidth;
+    let dorsalGap = state.dorsalBreak * 2;
+    let dorsalInterval = dorsalWidth * 3;
+
+    let width = this.bodyLength * this.scale;
+    let height = dorsalWidth * this.scale;
+
+//    this.p5.randomSeed(0);
+    let gaps = [];
+    for (let i = 0; i < dorsalGap; i++) {
+      gaps.push(this.p5.random() * (width - dorsalWidth * 2) + dorsalWidth);
+      console.log(i);
+    }
+    gaps.sort((a,b)=>{return a-b;});
+    console.log(gaps);
+
+    let half = dorsalInterval / 2;
+    let pos = 0;
+    for (let i = 0; i < dorsalGap; i += 2) {
+      if (gaps[i] - pos < dorsalInterval) {
+        gaps[i] = pos + dorsalInterval + half;
+        gaps[i + 1] = pos + dorsalInterval + half;
+      } else if (gaps[i] - pos > dorsalInterval + half) {
+        gaps[i] = pos + dorsalInterval + half * this.p5.random();        
+      }
+      pos = gaps[i + 1];
+    }
+    if (width - gaps[gaps.length - 1] > dorsalInterval + half) {
+      gaps[gaps.length - 1] = width - dorsalInterval * this.p5.random();        
+    }
+    console.log(gaps.length);
+    console.log(gaps);
+
+
+    for (let y = 0; y < height + 20; y++) {
+      for (let x = 0; x < width; x++) {
+        let offset = pnoise.perlin2(x / 50, y / 50) * state.distortion;
+        let isGap = (y + offset > dorsalWidth);
+        for (let i = 0; i < dorsalGap; i += 2) {
+          let dStart = gaps[i];
+          let dEnd = gaps[i + 1];
+          if ((x >= dStart) && (x <= dEnd) && (y + offset < dorsalWidth)) {
+            isGap = false;
+            break;
+          }
+          let distStart = Math.sqrt(Math.pow(dStart - x, 2) + Math.pow(0 - y, 2)) + offset;
+          let distEnd = Math.sqrt(Math.pow(dEnd - x, 2) + Math.pow(0 - y, 2)) + offset;
+          if ((distStart < dorsalWidth) || (distEnd < dorsalWidth)) {
+            isGap = false;
+            break;
+          }
+          isGap = true;
+        }
+        if (!isGap) {
+          this.p5.stroke(colDorsal);
+          this.p5.point(this.x + x, this.y + y);
+        }
+      }
+    }
+  }
+
+
   drawBody(x, y, mainColorCode, backColorCode, bellyColorCode) {
     let p5 = this.p5;
 
