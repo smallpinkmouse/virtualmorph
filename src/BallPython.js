@@ -309,13 +309,19 @@ class BallPython {
 
 //        let gy = Math.abs(-Math.sin(theta1 / 3 - ((1-rate2) * 5)) * 80 + y * 0.5  + 10 + Math.cos(theta1) * 40);
 //        let gy = Math.abs(-Math.sin(theta1 / 3 - ((1-rate2) * 20)) * 90 + y * 0.7  - 10 + Math.cos(theta1) * 50);
-        let gy = Math.abs(-Math.sin(theta1 / 3 - (1-rate2) * 20) * 90 + y * 0.9  - 10 + Math.cos(theta1) * 70);
+        let gy = Math.abs(-Math.sin(theta1 / 3 - (1-rate2) * 20) * 90 + y * 0.9  - 10 + Math.cos(theta1) * 70) + 0.5;
 
-        let col = p5.get(this.x + (x * 4.5 * rate2) % this.bodyLength, this.y + gy + 0.5);
+        let col = p5.get(this.x + (x * 4.5 * rate2) % this.bodyLength, this.y + gy);
 
-        p5r.strokeWeight(5);
-        p5r.stroke(col);
-        p5r.point(px, py);
+        col = p5.lerpColor(p5.color(col), p5.color(0), gy / this.bodyHeight * 0.3);
+
+//        p5r.strokeWeight(5);
+//        p5r.stroke(col);
+        p5r.fill(col);
+//        p5r.noFill();
+        p5r.noStroke();
+//        p5r.point(px, py);
+        p5r.ellipse(px, py, 4, 4);
       }
 
       if (Math.cos(theta1) > 0) {
@@ -334,8 +340,8 @@ class BallPython {
     let hx = 230;
     let hy = 260;
 
-//    let darkColor = p5.lerpColor(p5.color(bodyColor), p5.color(0), 0.05);
-    let darkColor = bodyColor;
+    let darkColor = p5.lerpColor(p5.color(bodyColor), p5.color(0), 0.05);
+//    let darkColor = bodyColor;
     let lightShadowColor = p5.lerpColor(p5.color(lightColor), p5.color(0), 0.2);
 
     p5.noStroke();

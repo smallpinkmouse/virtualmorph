@@ -234,7 +234,7 @@ class App extends Component {
               defaultValue={this.state.bottomSize}
               step={1}
               min={0}
-              max={30}
+              max={50}
               onAfterChange={(value) => {this.setState({bottomSize: value});}}
             />
             <div className="ControlValue">{this.state.bottomSize}</div>
