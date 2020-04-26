@@ -14,7 +14,7 @@ class App extends Component {
     super();
     this.state = {
       morphName: 'Normal',
-      dots: 1,
+      dots: 2,
       distortion: 10,
       blotchSize: 20,
       blotchPos: 20,
@@ -25,7 +25,8 @@ class App extends Component {
       colBodyBelly: '#1e0a0a',
       colBlotch: '#b4826e',
       colBlotchOutline: '#351010',
-      colBlotchBelly: '#c8a080',
+//      colBlotchBelly: '#c8a080',
+      colBlotchBelly: '#dabfbf',
       colBlotchDot: '#312121',
 
       colEye: '#101010',
@@ -222,7 +223,7 @@ class App extends Component {
               defaultValue={this.state.blotchSize}
               step={1}
               min={0}
-              max={40}
+              max={25}
               onAfterChange={(value) => {this.setState({blotchSize: value});}}
             />
             <div className="ControlValue">{this.state.blotchSize}</div>

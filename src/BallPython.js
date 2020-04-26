@@ -22,7 +22,7 @@ class Blotch {
     return s + (e - s) * p;
   }
 
-  drawPixel(x0, y0, h, x, y, blotchColor, outlineColor, dotColor, noise) {
+  drawPixel(x0, y0, h, x, y, blotchColor, bellyColor, outlineColor, dotColor, noise) {
 
     let size = this.size;
     if (this.dots.length < 2) {
@@ -56,7 +56,17 @@ class Blotch {
       let stemSize = this.lerp(this.bottomSize, this.size * 2, stemRate);
 
       if (dist < stemSize) {
-        col = blotchColor;
+        if (0.3 + p5.random() * 0.4 <stemRate) {
+          col = blotchColor;
+        } else {
+          col = bellyColor;
+        }
+
+//        col = blotchColor;
+//        col = p5.lerpColor(bellyColor, blotchColor, 0.5 + stemRate / 2);
+
+
+
       } else if (dist < stemSize + 13) {
         let rate = Math.pow((dist - stemSize) / 13, 0.5);
         let bodyColor = p5.color(p5.get(x0 + x, y0 + y));
@@ -84,14 +94,17 @@ class Blotch {
   distance(x, y, noise) {
     let offset = pnoise.perlin2(x / 50, y / 50) * noise;
     let nearestDist = 99999;
-    if (this.dots.length === 0) {
+    if (this.dots.length < 2) {
       return Math.sqrt(Math.pow(x - this.x, 2) * 0.4 + Math.pow(y - this.y, 2)) + offset;
-    }
-    for (let i = 0; i < this.dots.length; i++) {
-      let dist = Math.sqrt(Math.pow(x - (this.x + this.dots[i].x), 2) * 0.4 + Math.pow(y - (this.y + this.dots[i].y), 2)) + offset;
-      if (dist < nearestDist) {
-        nearestDist = dist;
+    } else {
+      for (let i = 0; i < this.dots.length; i++) {
+        let dist = Math.sqrt(Math.pow(x - (this.x + this.dots[i].x), 2) * 0.4 + Math.pow(y - (this.y + this.dots[i].y), 2)) + offset;
+        if (dist < nearestDist) {
+          nearestDist = dist;
+        }
       }
+      let centerDist = Math.sqrt(Math.pow(x - this.x, 2) * 0.4 + Math.pow(y - this.y, 2)) + offset;
+      nearestDist = (nearestDist + centerDist / 2) / 2;
     }
     return nearestDist;
   }
@@ -142,15 +155,16 @@ class BallPython {
     this.numDots = numDots;
     for (let i = 0; i < this.blotches.length; i++) {
       this.blotches[i].dots = [];
+      let bsize = this.blotches[i].size;
       switch (this.numDots) {
         case 0:
           break;
         case 1:
-          this.blotches[i].addDot(0, 0, 15);
+          this.blotches[i].addDot(0, 0, bsize * 0.8);
           break;
         case 2:
-          this.blotches[i].addDot(-30, 0, 10);
-          this.blotches[i].addDot( 30, 0, 10);
+          this.blotches[i].addDot(-bsize * 1.5, 0, bsize * 0.45);
+          this.blotches[i].addDot( bsize * 1.5, 0, bsize * 0.45);
           break;
         default:
           break;
@@ -188,8 +202,10 @@ class BallPython {
 
   drawBlotches(state) {
     if (this.blotches.length === 0) return;
+    this.p5.randomSeed(0);
 
     let colBlotch = this.p5.color(state.colBlotch);
+    let colBlotchBelly = this.p5.color(state.colBlotchBelly);
     let colBlotchOutline = this.p5.color(state.colBlotchOutline);
     let colBlotchDot = this.p5.color(state.colBlotchDot);
 
@@ -200,7 +216,7 @@ class BallPython {
       for (let x = 0; x < width; x++) {
         let nearestBlotch = Math.floor(x / blotchInterval);
         let bl = this.blotches[nearestBlotch];
-        bl.drawPixel(this.x, this.y, this.bodyHeight, x, y, colBlotch, colBlotchOutline, colBlotchDot, state.distortion);
+        bl.drawPixel(this.x, this.y, this.bodyHeight, x, y, colBlotch, colBlotchBelly, colBlotchOutline, colBlotchDot, state.distortion);
       }
     }
   }
