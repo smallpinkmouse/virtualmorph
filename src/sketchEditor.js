@@ -27,6 +27,7 @@ const sketch = (p) => {
     bp.drawBody(0, 0, state.colBody, state.colBodyBack, state.colBodyBelly);
     bp.drawBlotches(state);
     bp.drawDorsal(state);
+    bp.drawPied(state);
   }
 
   p.drawSnake = function(target, state) {

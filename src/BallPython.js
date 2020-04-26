@@ -221,6 +221,24 @@ class BallPython {
     }
   }
 
+  drawPied(state) {
+    if (state.pied === 0) {
+      return;
+    }
+    let width = this.bodyLength * this.scale;
+    let height = this.bodyHeight * this.scale;
+    for (let y = 0; y < height; y++) {
+      for (let x = 0; x < width; x++) {
+        let offset = pnoise.perlin2(x / 250, y / 250) * 20 + 8;
+        if (offset < state.pied) {
+          this.p5.stroke('white');
+          this.p5.point(this.x + x, this.y + y);
+        }
+      }
+    }
+  }
+
+
   drawDorsal(state) {
 //    if (this.blotches.length === 0) return;
 
@@ -229,6 +247,10 @@ class BallPython {
     let dorsalGap = state.dorsalBreak * 2;
     let dorsalInterval = dorsalWidth * 3;
 
+    if (dorsalWidth === 0) {
+      return;
+    }
+
     let width = this.bodyLength * this.scale;
     let height = dorsalWidth * this.scale;
 
@@ -236,10 +258,8 @@ class BallPython {
     let gaps = [];
     for (let i = 0; i < dorsalGap; i++) {
       gaps.push(this.p5.random() * (width - dorsalWidth * 2) + dorsalWidth);
-      console.log(i);
     }
     gaps.sort((a,b)=>{return a-b;});
-    console.log(gaps);
 
     let half = dorsalInterval / 2;
     let pos = 0;
@@ -255,9 +275,6 @@ class BallPython {
     if (width - gaps[gaps.length - 1] > dorsalInterval + half) {
       gaps[gaps.length - 1] = width - dorsalInterval * this.p5.random();        
     }
-    console.log(gaps.length);
-    console.log(gaps);
-
 
     for (let y = 0; y < height + 20; y++) {
       for (let x = 0; x < width; x++) {

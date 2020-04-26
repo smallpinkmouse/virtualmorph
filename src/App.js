@@ -21,6 +21,7 @@ class App extends Component {
       bottomSize: 10,
       dorsalBreak: 3,
       dorsalWidth: 20,
+      pied: 0,
 
       colBody: '#965a5a',
       colBodyBack: '#533038',
@@ -346,7 +347,6 @@ class App extends Component {
               onAfterChange={(value) => {this.setState({dorsalBreak: value});}}
             />
             <div className="ControlValue">{this.state.dorsalBreak}</div>
-            <div className="ControlMemo">{this.memo[this.state.dorsalBreak]}</div>
           </div>
 
           <div className="ControlItem">
@@ -359,10 +359,27 @@ class App extends Component {
               onAfterChange={(value) => {this.setState({dorsalWidth: value});}}
             />
             <div className="ControlValue">{this.state.dorsalWidth}</div>
-            <div className="ControlMemo">{this.memo[this.state.dorsalWidth]}</div>
           </div>
 
           <div className="ControlHR" />
+
+
+
+          <div className="ControlItem">
+            <div className="ControlLabel">Pied</div>
+            <Slider
+              defaultValue={this.state.pied}
+              step={1}
+              min={0}
+              max={10}
+              onAfterChange={(value) => {this.setState({pied: value});}}
+            />
+            <div className="ControlValue">{this.state.pied}</div>
+          </div>
+
+          <div className="ControlHR" />
+
+
 
           <div className="ControlItem">
             <div className="ControlLabel">Eye Color</div>
