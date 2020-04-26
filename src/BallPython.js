@@ -221,6 +221,19 @@ class BallPython {
     }
   }
 
+  drawTitle(p, state) {
+    p.textSize(24);
+    let color = 'black';
+    let bgColor = state.colBackground;
+    let bgColorBrightness = (p.red(bgColor) + p.green(bgColor) + p.blue(bgColor)) / 3;
+    if (bgColorBrightness < 128) {
+      color = 'white';
+    }
+    p.fill(color);
+    p.text(state.morphName, 470 - p.textWidth(state.morphName), 480);
+  }
+
+
   drawPied(state) {
     if (state.pied === 0) {
       return;
@@ -338,11 +351,6 @@ class BallPython {
     let p5 = this.p5;
     let p5r = target;
 
-    // p5.strokeWeight(3);
-    // p5.stroke(p5.color(255,255,0));
-    // p5.line(this.x, this.y, this.x + this.bodyLength, this.y);
-
-
     p5r.erase();
     p5r.rect(0, 0, 500, 500);
     p5r.noErase();
@@ -350,8 +358,6 @@ class BallPython {
     p5r.noStroke();
     p5r.fill(state.colBackgroundRGBA);
     p5r.rect(0, 0, 500, 500);
-
-    document.querySelector('#progress').textContent = 'calculating...';
 
     g_x = 0;
     g_timer = setInterval(()=> {
@@ -370,6 +376,9 @@ class BallPython {
 
         this.drawHead(p5r, state.colBodyBack, state.colBlotch, state.colEye);
         document.querySelector('#progress').textContent = '100%';
+
+        this.drawTitle(p5r, state);
+
         return;
       }
 
