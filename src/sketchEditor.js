@@ -17,9 +17,9 @@ const sketch = (p) => {
 
   p.redraw = function(state) {
     lastState = state;
-    console.log('redraw');
     if (bp === undefined) return;
-    if (state == undefined) return;
+    if (state === undefined) return;
+    console.log('redraw');
 
     bp.PatternNoise = state.distortion;
     bp.initBlotches(state.blotchSize, state.bottomSize, state.blotchPos);

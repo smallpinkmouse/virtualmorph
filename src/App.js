@@ -24,9 +24,9 @@ class App extends Component {
       colBodyBack: '#533038',
       colBodyBelly: '#1e0a0a',
       colBlotch: '#b4826e',
-      colBlotchOutline: '#0a0303',
+      colBlotchOutline: '#351010',
       colBlotchBelly: '#c8a080',
-      colBlotchDot: '#533038',
+      colBlotchDot: '#312121',
 
       colEye: '#101010',
       colBackground: '#f0f0f0',
@@ -38,6 +38,7 @@ class App extends Component {
       cpColBlotch: false,
       cpColBlotchOutline: false,
       cpColBlotchBelly: false,
+      cpColBlotchDot: false,
       cpColEye: false,
       cpColBackground: false,
     }
@@ -78,6 +79,7 @@ class App extends Component {
       this.state.cpColBlotch ? true :
       this.state.cpColBlotchOutline ? true :
       this.state.cpColBlotchBelly ? true :
+      this.state.cpColBlotchDot ? true :
       this.state.cpColEye ? true :
       this.state.cpColBackground ? true :
       false;
@@ -91,6 +93,7 @@ class App extends Component {
       cpColBlotch: false,
       cpColBlotchOutline: false,
       cpColBlotchBelly: false,
+      cpColBlotchDot: false,
       cpColEye: false,
       cpColBackground: false,
     }
@@ -135,9 +138,13 @@ class App extends Component {
       this.textChange = false;
     } else {
       if ((this.p5 !== null) && (!this.colorPickerShowing())) {
-        this.p5.redraw(this.state);
+        setTimeout(()=>{
+          this.p5.redraw(this.state);
+        }, 50);
       }      
     }
+
+    console.log('render');
 
     return (
       <div className="App">
@@ -342,7 +349,6 @@ class App extends Component {
             <button className="ControlRendering" onClick={this.onRenderingClick}>Rendering</button>
             <div id="progress"></div>
           </div>
-
 
         </div>
       </div>
