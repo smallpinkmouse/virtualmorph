@@ -67,20 +67,23 @@ class Blotch {
 
 
 
-      } else if (dist < stemSize + 13) {
-        let rate = Math.pow((dist - stemSize) / 13, 0.5);
-        let bodyColor = p5.color(p5.get(x0 + x, y0 + y));
-        col = p5.lerpColor(outlineColor, bodyColor, rate);
+      } else if (dist < stemSize + 5) {
+        let rate = Math.pow((dist - stemSize) / 5, 0.5);
+        if (0.3 + p5.random() * 0.4 <stemRate) {
+          col = blotchColor;
+        } else {
+          col = bellyColor;
+        }
+        col = p5.lerpColor(col, outlineColor, rate);
       } else {
         // body base color
         return;
       }
 
-    } else if (dist < size + 13) {
+    } else if (dist < size + 5) {
       // outline blotches
-      let rate = Math.pow((dist - size) / 13, 0.5);
-      let bodyColor = p5.color(p5.get(x0 + x, y0 + y));
-      col = p5.lerpColor(outlineColor, bodyColor, rate);
+      let rate = Math.pow((dist - size) / 5, 0.5);
+      col = p5.lerpColor(blotchColor, outlineColor, rate);
 
     } else {
       // body base color
