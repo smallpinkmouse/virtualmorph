@@ -4,6 +4,9 @@ class SaveLoad extends React.Component {
   state = this.props.value;
 
   componentDidMount() {
+    this.close(document.querySelector('#importdialog'));
+    this.close(document.querySelector('#exportdialog'));
+
     this.reader = new FileReader();
     this.reader.onload = (e) => {
       const json = JSON.parse(e.target.result);
@@ -13,9 +16,17 @@ class SaveLoad extends React.Component {
     };
   }
 
+  show(elem) {
+    elem.style.display = "block";
+  }
+
+  close(elem) {
+    elem.style.display = "none";
+  }
+
   handleImport() {
     var dialog = document.querySelector('#importdialog');
-    dialog.showModal();
+    this.show(dialog);
 
     var parent = document.querySelector('#importform');
     if (parent.firstChild != null) {
@@ -43,7 +54,7 @@ class SaveLoad extends React.Component {
 
   handleExport() {
     const dialog = document.querySelector('#exportdialog');
-    dialog.showModal();
+    this.show(dialog);
 
     const parent = document.querySelector('#exportlink');
     if (parent.firstChild != null) {
@@ -118,7 +129,7 @@ class SaveLoad extends React.Component {
           }}>
           Export</div>
 
-        <dialog
+        <div className="dialog"
           id="importdialog"
           style={{
           }}>
@@ -132,11 +143,11 @@ class SaveLoad extends React.Component {
           <div id="importform" style={{marginTop:'5px'}}>
           </div>
           <div className="dialogfooter">
-            <button onClick={()=>{document.querySelector('#importdialog').close();}}>Close</button>
+            <button onClick={()=>{this.close(document.querySelector('#importdialog'));}}>Close</button>
           </div>
-        </dialog>
+        </div>
 
-        <dialog
+        <div className="dialog"
           id="exportdialog"
           style={{
           }}>
@@ -148,9 +159,9 @@ class SaveLoad extends React.Component {
           </div>
           <div id="exportlink" style={{fontSize:'18px'}}></div>
           <div className="dialogfooter">
-            <button onClick={()=>{document.querySelector('#exportdialog').close();}}>Close</button>
+            <button onClick={()=>{this.close(document.querySelector('#exportdialog'));}}>Close</button>
           </div>
-        </dialog>
+        </div>
 
       </div>
     );

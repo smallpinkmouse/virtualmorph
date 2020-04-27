@@ -190,7 +190,15 @@
 }
 
 
-dialog {
+.dialog {
+  display: none;
+  position: fixed;
+  top: 40%;
+  left: 40%;
+  height: auto;
+  overflow: hidden;
+  z-index: 9999;
+
   padding: 0;
   border: 0;
   border-radius: 0.4rem;
@@ -201,10 +209,6 @@ dialog {
   color: #EEE;
   font-size: 10px;
   font-family: sans-serif;
-}
-
-dialog::backdrop {
-  background-color: rgba(0, 0, 0, 0.8);
 }
 
 .dialogheader {
