@@ -14,6 +14,16 @@ Here is no Python language code.
 
 https://smallpinkmouse.github.io/virtualmorph
 
+
+# Example
+
+![Normal](https://raw.githubusercontent.com/smallpinkmouse/virtualmorph/master/example/normal.png)
+![Albino](https://raw.githubusercontent.com/smallpinkmouse/virtualmorph/master/example/albino.png)
+![Pied](https://raw.githubusercontent.com/smallpinkmouse/virtualmorph/master/example/pied.png)
+![Spider](https://raw.githubusercontent.com/smallpinkmouse/virtualmorph/master/example/spider.png)
+
+
 # License
+
 program code: MIT License  
 generated illustration: CC0
