@@ -5,6 +5,7 @@ Ball Python Virtual Morph Maker
 
 Ball Python illustration generator.  
 You can generate any kind of morph illustration.  
+You can use the generated images for your artwork, SNS icons, commercial advertisements, etc.
   
 This program is written in JavaScript.  
 Here is no Python language code.
