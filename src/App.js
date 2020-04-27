@@ -4,6 +4,7 @@ import './App.css';
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import { ChromePicker } from 'react-color';
+import SaveLoad from './saveload';
 
 import P5 from 'p5';
 import sketchEditor from './sketchEditor';
@@ -17,8 +18,8 @@ class App extends Component {
       dots: 2,
       distortion: 10,
       blotchSize: 20,
-      blotchPos: 20,
-      bottomSize: 10,
+      blotchPos: 30,
+      bottomSize: 5,
       dorsalBreak: 3,
       dorsalWidth: 20,
       pied: 0,
@@ -140,6 +141,10 @@ class App extends Component {
     this.setState({morphName: val})
   }
 
+  handleImport(stat)
+  {
+    this.setState(stat);
+  }
 
   render() {
     if (this.textChange) {
@@ -152,12 +157,22 @@ class App extends Component {
       }      
     }
 
-    console.log('render');
-
     return (
       <div className="App">
         <div className="App-header">
           Ball Python Virtual Morph Maker
+          <div id="about" onClick={()=>{window.location.href='https://github.com/smallpinkmouse/virtualmorph';}}
+            style={{
+              position:'absolute',
+              top:'10px',
+              right:'160px',
+              width:'100px',
+              height:'30px',
+              fontSize: '15px',
+              cursor: 'pointer'
+            }}>
+            About</div>
+          <SaveLoad value={{state:this.state}} onChange={(st)=>{this.handleImport(st);}} />
         </div>
 
         <div id="CanvasEditor"></div>
@@ -214,7 +229,7 @@ class App extends Component {
               defaultValue={this.state.distortion}
               step={1}
               min={0}
-              max={20}
+              max={30}
               onAfterChange={(value) => {this.setState({distortion: value});}}
             />
             <div className="ControlValue">{this.state.distortion}</div>
@@ -242,7 +257,7 @@ class App extends Component {
               defaultValue={this.state.bottomSize}
               step={1}
               min={0}
-              max={50}
+              max={25}
               onAfterChange={(value) => {this.setState({bottomSize: value});}}
             />
             <div className="ControlValue">{this.state.bottomSize}</div>
@@ -324,18 +339,18 @@ class App extends Component {
 
           <div className="ControlHR" />
 
-          <div className="ControlItem">
-            <div className="ControlLabel">Dorsal Color</div>
-            <div className="ControlColor" onClick={ ()=>{this.onColorClick('cpColDorsal');} }>
-              <div className="ControlColorInner" style={{ background: this.state.colDorsal }} />
-            </div>
-            { this.state.cpColDorsal ? <div className="ColorPickerPopup">
-              <div className="ColorPickerCover" onClick={ ()=>{this.onColorClose('cpColDorsal');} }/>
-              <ChromePicker color={ this.state.colDorsal } onChange={ (color)=>{this.onColorChange('colDorsal', color.hex);} } />
-            </div> : null }
-            <div className="ColorValue">{this.state.colDorsal}</div>
-          </div>          
 
+          <div className="ControlItem">
+            <div className="ControlLabel">Dorsal Size</div>
+            <Slider
+              defaultValue={this.state.dorsalWidth}
+              step={1}
+              min={0}
+              max={50}
+              onAfterChange={(value) => {this.setState({dorsalWidth: value});}}
+            />
+            <div className="ControlValue">{this.state.dorsalWidth}</div>
+          </div>
 
           <div className="ControlItem">
             <div className="ControlLabel">Dorsal Break</div>
@@ -350,16 +365,16 @@ class App extends Component {
           </div>
 
           <div className="ControlItem">
-            <div className="ControlLabel">Dorsal Width</div>
-            <Slider
-              defaultValue={this.state.dorsalWidth}
-              step={1}
-              min={0}
-              max={50}
-              onAfterChange={(value) => {this.setState({dorsalWidth: value});}}
-            />
-            <div className="ControlValue">{this.state.dorsalWidth}</div>
-          </div>
+            <div className="ControlLabel">Dorsal Color</div>
+            <div className="ControlColor" onClick={ ()=>{this.onColorClick('cpColDorsal');} }>
+              <div className="ControlColorInner" style={{ background: this.state.colDorsal }} />
+            </div>
+            { this.state.cpColDorsal ? <div className="ColorPickerPopup">
+              <div className="ColorPickerCover" onClick={ ()=>{this.onColorClose('cpColDorsal');} }/>
+              <ChromePicker color={ this.state.colDorsal } onChange={ (color)=>{this.onColorChange('colDorsal', color.hex);} } />
+            </div> : null }
+            <div className="ColorValue">{this.state.colDorsal}</div>
+          </div>          
 
           <div className="ControlHR" />
 

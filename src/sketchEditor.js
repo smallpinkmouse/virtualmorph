@@ -19,10 +19,9 @@ const sketch = (p) => {
     lastState = state;
     if (bp === undefined) return;
     if (state === undefined) return;
-    console.log('redraw');
 
     bp.PatternNoise = state.distortion;
-    bp.initBlotches(state.blotchSize, state.bottomSize, state.blotchPos);
+    bp.initBlotches(state.blotchSize, state.bottomSize * 2, state.blotchPos);
     bp.setDots(state.dots);
     bp.drawBody(0, 0, state.colBody, state.colBodyBack, state.colBodyBelly);
     bp.drawBlotches(state);

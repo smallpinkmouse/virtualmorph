@@ -95,7 +95,12 @@ class Blotch {
     let offset = pnoise.perlin2(x / 50, y / 50) * noise;
     let nearestDist = 99999;
     if (this.dots.length < 2) {
-      return Math.sqrt(Math.pow(x - this.x, 2) * 0.4 + Math.pow(y - this.y, 2)) + offset;
+      let dist = Math.sqrt(Math.pow(x - this.x, 2) * 0.4 + Math.pow(y - this.y, 2));
+      if (this.y - y > 20) {
+        dist += (this.y - y - 20);
+      }
+      return dist + offset;
+
     } else {
       for (let i = 0; i < this.dots.length; i++) {
         let dist = Math.sqrt(Math.pow(x - (this.x + this.dots[i].x), 2) * 0.4 + Math.pow(y - (this.y + this.dots[i].y), 2)) + offset;
@@ -244,7 +249,7 @@ class BallPython {
       for (let x = 0; x < width; x++) {
         let offset = pnoise.perlin2(x / 250, y / 250) * 20 + 8;
         if (offset < state.pied) {
-          this.p5.stroke('white');
+          this.p5.stroke('#f0f0f0');
           this.p5.point(this.x + x, this.y + y);
         }
       }
@@ -443,14 +448,15 @@ class BallPython {
     }, 10);
   }
 
-  drawHead(target, bodyColor, lightColor, colEye) {
+  drawHead(target, bodyColor, blotchColor, colEye) {
     let p5 = target;
     let hx = 230;
     let hy = 260;
 
-    let darkColor = p5.lerpColor(p5.color(bodyColor), p5.color(0), 0.05);
+    let darkColor = p5.lerpColor(p5.color(bodyColor), p5.color(0), 0.1);
 //    let darkColor = bodyColor;
-    let lightShadowColor = p5.lerpColor(p5.color(lightColor), p5.color(0), 0.2);
+    let lightColor = p5.lerpColor(p5.color(blotchColor), p5.color(0), 0.1);
+    let lightShadowColor = p5.lerpColor(p5.color(blotchColor), p5.color(0), 0.2);
 
     p5.noStroke();
 
