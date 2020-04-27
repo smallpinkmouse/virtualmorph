@@ -86,12 +86,12 @@
   top: -40px;
   left: 300px;
   width: 50px;
-  height: 20px;
+  height: 22px;
   background-color: #ddd;
   font-family:monospace;
   font-size: 17px;
-  font-weight: bold;
   padding-top: 4px;
+  padding-bottom: 0px;
   border-radius: 3px;
 }
 
@@ -143,12 +143,12 @@
   top: -47px;
   left: 300px;
   width: 100px;
-  height: 20px;
+  height: 22px;
   background-color: #ddd;
   font-family:monospace;
   font-size: 17px;
-  font-weight: bold;
   padding-top: 4px;
+  padding-bottom: 0px;
   border-radius: 3px;
 }
 
@@ -157,11 +157,11 @@
   top: -28px;
   left: 170px;
   width: 215px;
-  height: 20px;
+  height: 22px;
   background-color: #ddd;
   font-size: 17px;
-  font-weight: bold;
   padding-top: 4px;
+  padding-bottom: 0px;
   padding-left: 10px;
   border-radius: 5px;
 }
