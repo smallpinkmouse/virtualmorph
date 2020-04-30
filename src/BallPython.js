@@ -96,6 +96,7 @@ class Blotch {
 
   distance(x, y, noise) {
     let offset = pnoise.perlin2(x / 50, y / 50) * noise;
+//    let offset = (this.p5.noise(x / 50, y / 50) - 0.5) * noise * 2;
     let nearestDist = 99999;
     if (this.dots.length < 2) {
       let dist = Math.sqrt(Math.pow(x - this.x, 2) * 0.4 + Math.pow(y - this.y, 2));
@@ -119,6 +120,7 @@ class Blotch {
 
   distanceX(x, y, noise, rate) {
     let offset = pnoise.perlin2(x / 50, y / 50) * noise;
+//    let offset = (this.p5.noise(x / 50, y / 50) - 0.5) * noise * 2;
     return Math.sqrt(Math.pow(x - this.x, 2) * 0.4) + offset;
   }
 
@@ -154,6 +156,8 @@ class BallPython {
     this.numBlotches = 5;
     this.blotches = [];
     this.initBlotches(20, 0);
+
+    this.rendering = false;
 
     this.numDots = 2;
     this.setDots(this.numDots);
@@ -199,6 +203,7 @@ class BallPython {
 
   distance(x0, y0, x1, y1, size, cnst) {
     let offset = pnoise.perlin2(x0 / 50, y0 / 50) * this.PatternNoise;
+//    let offset = (this.p5.noise(x0 / 50, y0 / 50) - 0.5) * this.PatternNoise * 2;
 
     if (y0 > y1) {
       return Math.max(
@@ -246,11 +251,13 @@ class BallPython {
     if (state.pied === 0) {
       return;
     }
+    this.p5.randomSeed(2);
     let width = this.bodyLength * this.scale;
     let height = this.bodyHeight * this.scale;
     for (let y = 0; y < height; y++) {
       for (let x = 0; x < width; x++) {
         let offset = pnoise.perlin2(x / 250, y / 250) * 20 + 8;
+//        let offset = (this.p5.noise((x+250) / 800, (y + 150) / 800) - 0.5) * 30 + 8;
         if (offset < state.pied) {
           this.p5.stroke('#f0f0f0');
           this.p5.point(this.x + x, this.y + y);
@@ -300,6 +307,7 @@ class BallPython {
     for (let y = 0; y < height + 20; y++) {
       for (let x = 0; x < width; x++) {
         let offset = pnoise.perlin2(x / 50, y / 50) * state.distortion;
+//        let offset = (this.p5.noise(x / 50, y / 50) - 0.5) * state.distortion * 2;
         let isGap = (y + offset > dorsalWidth);
         for (let i = 0; i < dorsalGap; i += 2) {
           let dStart = gaps[i];
@@ -356,6 +364,9 @@ class BallPython {
 
 
   drawSnake(target, state) {
+    if (this.rendering) return;
+    this.rendering = true;
+
     let p5 = this.p5;
     let p5r = target;
 
@@ -387,6 +398,7 @@ class BallPython {
 
         this.drawTitle(p5r, state);
 
+        this.rendering = false;
         return;
       }
 
