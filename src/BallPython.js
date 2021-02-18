@@ -381,6 +381,7 @@ class BallPython {
     g_x = 0;
     g_timer = setInterval(()=> {
       let x = g_x;
+
       if (x >= this.bodyLength) {
         clearInterval(g_timer);
 
@@ -393,7 +394,7 @@ class BallPython {
         p5.arc(0, 0, 280, 100, p5.PI + 0.3, -0.3);
         p5.pop();
 
-        this.drawHead(p5r, state.colBodyBack, state.colBlotch, state.colEye);
+        this.drawHead(p5r, state.colBodyBack, state.colBlotch, state.colEye, state.colIris, state.headStamp);
         document.querySelector('#progress').textContent = '100%';
 
         this.drawTitle(p5r, state);
@@ -411,7 +412,6 @@ class BallPython {
       let rate3 = x / this.bodyLength;
 
       document.querySelector('#progress').textContent = Math.floor(rate3 * 100) + '%';
-
 
       let rate2 = (rate3 > 0.7) ? this.lerp(1, 0.8, (rate3 - 0.7) / 0.3) : 1;
 //      let rate2 = (rate3 > 0.7) ? 0.5 : 1;
@@ -463,15 +463,14 @@ class BallPython {
     }, 10);
   }
 
-  drawHead(target, bodyColor, blotchColor, colEye) {
+  drawHead(target, bodyColor, blotchColor, colEye, colIris, headStamp) {
     let p5 = target;
     let hx = 230;
     let hy = 260;
 
     let darkColor = p5.lerpColor(p5.color(bodyColor), p5.color(0), 0.1);
-//    let darkColor = bodyColor;
     let lightColor = p5.lerpColor(p5.color(blotchColor), p5.color(0), 0.1);
-    let lightShadowColor = p5.lerpColor(p5.color(blotchColor), p5.color(0), 0.2);
+    //let lightShadowColor = p5.lerpColor(p5.color(blotchColor), p5.color(0), 0.2);
 
     p5.noStroke();
 
@@ -479,7 +478,7 @@ class BallPython {
     p5.translate(hx, hy);
     p5.rotate(p5.PI / 10);
 
-    // shadow
+    // bottom shadow
     p5.push();
     p5.translate(-15, 15);
     p5.rotate(-0.2);
@@ -487,45 +486,64 @@ class BallPython {
     p5.ellipse(0, 0, 128, 55);
     p5.pop();
 
-    // back head
-//    p5.fill('blue');
-
-    //p5.fill(lightShadowColor);
+    // head upper shadow
     p5.fill(p5.color(0, 0, 0, 50));
     p5.arc(-35-2, 10-2, 100, 100, p5.PI, 0);
-    p5.fill(darkColor);
-    p5.arc(-35, 10, 100, 100, p5.PI, 0);
-    p5.quad(-20, -30,    45, -15,   35, 0,   -40, 0);
 
-    // front head
+    let darkGrad = p5.drawingContext.createLinearGradient(-100, 0, -70, 0);
+    darkGrad.addColorStop(0.0, lightColor);
+    darkGrad.addColorStop(1.0, darkColor);
+
+    let lightGrad = p5.drawingContext.createLinearGradient(0, 0, 0, 60);
+    lightGrad.addColorStop(0.0, lightColor);
+    lightGrad.addColorStop(1.0, darkColor);
+
+    let lightHalfGrad = p5.drawingContext.createLinearGradient(0, 0, 0, 60);
+    let lightHalfColor = p5.color(lightColor);
+    lightHalfColor.setAlpha(10 * headStamp);
+    let darkHalfColor = p5.color(darkColor);
+    darkHalfColor.setAlpha(10 * headStamp);
+    lightHalfGrad.addColorStop(0.0, lightHalfColor);
+    lightHalfGrad.addColorStop(1.0, darkHalfColor);
+
+    // outline
+    let outlineColor = p5.color(0, 0, 0, 30);
+    p5.fill(outlineColor);
+    p5.arc(-35-2, 10-2, 100, 100, p5.PI, 0);
+    p5.arc(5, -8, 80, 80, 0, p5.PI);
+    p5.quad(-20, -30,    45, -15,   25, 25,   -40, 35);
+    p5.ellipse(35+2, -7-2, 23, 23);
+    p5.stroke(outlineColor);
+    p5.line(-5, -27, 35, -17);
     p5.noStroke();
-//    p5.ellipse(0, 0, 100, 45);
-  //  p5.fill('yellow');
-    p5.fill(lightColor);
+
+    //// dark color
+    p5.drawingContext.fillStyle = darkGrad;
+
+    // head darker back
+    p5.arc(-35, 10, 100, 100, p5.PI, 0);
+
+    // front nose arc
     p5.ellipse(35, -7, 23, 23);
     p5.ellipse(35, -5, 23, 23);
 
-    //p5.fill('green');
-    p5.fill(lightShadowColor);
-    p5.arc(5, -8, 80, 80, 0, p5.PI);
-    p5.fill(lightColor);
+
+    //// light color
+    p5.drawingContext.fillStyle = lightGrad;
+
+    // mouse arc
     p5.arc(5, -8-3, 80, 80, 0, p5.PI);
-    //p5.fill('red');
-//    p5.fill(lightShadowColor);
-//    p5.ellipse(-55, 5, 65, 65);
-    p5.fill(lightColor);
+
+    // head lighter back main
     p5.ellipse(-55, 5, 65, 65-2);
 
-    p5.fill(lightShadowColor);
-    p5.quad(-20, -30,    45, -15,   25, 25,   -40, 35);
-    p5.fill(lightColor);
+    // head front main
     p5.quad(-20, -30,    45, -15,   25, 25-3,   -40, 35-3);
 
 
-    p5.fill(darkColor);
-//    p5.fill('blue');
-//    p5.quad(-60, -30,    45, -15,   35, -10,   -80, -10);
-
+    //// dark color
+    p5.drawingContext.fillStyle = darkGrad;
+  
     p5.beginShape();
     p5.vertex(-60, -30);
     p5.vertex(-20, -30);
@@ -554,19 +572,60 @@ class BallPython {
     p5.vertex(25, 15);
     p5.vertex(-35, 10);
     p5.vertex(-55, 25);
-
-//    p5.vertex(-30, 10);
-
     p5.vertex(-65, 20);
     p5.endShape();
 
 
+    //// light Half color
+    p5.drawingContext.fillStyle = lightHalfGrad;
+
+    // headstamp (top)
+    p5.ellipse(-35, -25, 55, 25);
+    p5.ellipse(-5, -13, 40, 12);
+
+    p5.randomSeed(2);
+    for (let i = 0; i < 30; i++) {
+      let rx = p5.random();
+      let ry = p5.random();
+      let rrx = p5.random();
+      let rry = p5.random();
+
+      let arx = -80 + rx * 120;
+      let ary = -20 + ry * 10 + rx * 10 + 15 * (rx < 0.1);
+      let arrx = 12 + rrx * 5 + ((1 - rx) * 10);
+      let arry = 10 + rry * 3 + ((1 - rx) * 10);
+
+      p5.ellipse(arx, ary, arrx, arry);
+
+      if ((rx > 0.1) && (rx < 0.6)) {
+        p5.ellipse(arx + 10, ary - (0.4 - Math.abs(rx - 0.4)) * 40, arrx * 0.8, arry * 0.8);
+      }
+    }
+
+    // head stamp (side)
+    for (let i = 0; i < 20; i++) {
+      let rx = p5.random();
+      let ry = p5.random();
+      let rrx = p5.random();
+      let rry = p5.random();
+
+      let arx = -70 + rx * 100;
+      let ary = 10 + ry * 10 - rx * 8;
+      let arrx = 10 + rrx * 5 + ((1 - rx) * 10);
+      let arry = 8 + rry * 3 + ((1 - rx) * 10);
+
+      p5.ellipse(arx, ary, arrx, arry);
+    }
 
     p5.pop();
 
     // // eyes
-    p5.fill(colEye);
+    p5.fill(colIris);
     p5.ellipse(hx - 20, hy + 0, 15, 15);
+
+    p5.fill(colEye);
+    p5.ellipse(hx - 20, hy + 0, 5, 12);
+
     p5.fill(255, 255, 255, 100);
     p5.ellipse(hx - 20 - 0, hy + 0 - 3, 8, 8);
 

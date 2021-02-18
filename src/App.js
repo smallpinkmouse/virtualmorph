@@ -23,6 +23,7 @@ class App extends Component {
       "bottomSize": 5,
       "dorsalBreak": 4,
       "dorsalWidth": 13,
+      "headStamp": 0,
       "pied": 0,
       "colBody": "#8e5454",
       "colBodyBack": "#4a2c32",
@@ -33,6 +34,7 @@ class App extends Component {
       "colBlotchDot": "#312121",
       "colDorsal": "#aa8262",
       "colEye": "#101010",
+      "colIris": "#101010",
       "colBackground": "#f0f0f0",
       "colBackgroundRGBA": this.hex2rgba('#f0f0f0', 1),
       "cpColBody": false,
@@ -44,6 +46,7 @@ class App extends Component {
       "cpColBlotchDot": false,
       "cpColDorsal": false,
       "cpColEye": false,
+      "cpColIris": false,
       "cpColBackground": false,
     }
 
@@ -86,6 +89,7 @@ class App extends Component {
       this.state.cpColBlotchDot ? true :
       this.state.cpColDorsal ? true :
       this.state.cpColEye ? true :
+      this.state.cpColIris ? true :
       this.state.cpColBackground ? true :
       false;
   }
@@ -101,6 +105,7 @@ class App extends Component {
       cpColBlotchDot: false,
       cpColDorsal: false,
       cpColEye: false,
+      cpColIris: false,
       cpColBackground: false,
     }
     newState[picker] = bool;
@@ -235,10 +240,6 @@ class App extends Component {
             <div className="ControlValue">{this.state.distortion}</div>
           </div>
 
-
-          <div className="ControlHR" />
-
-
           <div className="ControlItem">
             <div className="ControlLabel">Blotch Size</div>
             <Slider
@@ -274,7 +275,6 @@ class App extends Component {
             />
             <div className="ControlValue">{this.state.blotchPos}</div>
           </div>
-
 
           <div className="ControlItem">
             <div className="ControlLabel">Blotch Color</div>
@@ -337,8 +337,6 @@ class App extends Component {
             <div className="ColorValue">{this.state.colBlotchDot}</div>
           </div>          
 
-          <div className="ControlHR" />
-
 
           <div className="ControlItem">
             <div className="ControlLabel">Dorsal Size</div>
@@ -394,7 +392,17 @@ class App extends Component {
 
           <div className="ControlHR" />
 
-
+          <div className="ControlItem">
+            <div className="ControlLabel">Head Stamp</div>
+            <Slider
+              defaultValue={this.state.headStamp}
+              step={1}
+              min={0}
+              max={10}
+              onAfterChange={(value) => {this.setState({headStamp: value});}}
+            />
+            <div className="ControlValue">{this.state.headStamp}</div>
+          </div>
 
           <div className="ControlItem">
             <div className="ControlLabel">Eye Color</div>
@@ -406,6 +414,18 @@ class App extends Component {
               <ChromePicker color={ this.state.colEye } onChange={ (color)=>{this.onColorChange('colEye', color.hex);} } />
             </div> : null }
             <div className="ColorValue">{this.state.colEye}</div>
+          </div>          
+
+          <div className="ControlItem">
+            <div className="ControlLabel">Iris Color</div>
+            <div className="ControlColor" onClick={ ()=>{this.onColorClick('cpColIris');} }>
+              <div className="ControlColorInner" style={{ background: this.state.colIris }} />
+            </div>
+            { this.state.cpColIris ? <div className="ColorPickerPopup">
+              <div className="ColorPickerCover" onClick={ ()=>{this.onColorClose('cpColIris');} }/>
+              <ChromePicker color={ this.state.colIris } onChange={ (color)=>{this.onColorChange('colIris', color.hex);} } />
+            </div> : null }
+            <div className="ColorValue">{this.state.colIris}</div>
           </div>          
 
           <div className="ControlItem">
@@ -421,7 +441,6 @@ class App extends Component {
           </div>          
 
 
-          <div className="ControlHR" />
           <div className="ControlHR" />
 
           <div className="ControlItem">
