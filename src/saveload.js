@@ -105,13 +105,13 @@ class SaveLoad extends React.Component {
 
   render() {
     return (
-      <div className="panel" style={{position:'absolute',top:'10px',right:'200px'}}>
+      <div className="panel" style={{position:'absolute',top:'10px',right:'160px'}}>
         <div id="import" onClick={()=>{this.handleImport();}}
           style={{
             position:'absolute',
             top:'0px',
-            left:'60px',
-            width:'100px',
+            left:'70px',
+            width:'70px',
             height:'30px',
             fontSize: '15px',
             cursor: 'pointer'
@@ -122,7 +122,7 @@ class SaveLoad extends React.Component {
             position:'absolute',
             top:'0px',
             left:'0px',
-            width:'100px',
+            width:'70px',
             height:'30px',
             fontSize: '15px',
             cursor: 'pointer'

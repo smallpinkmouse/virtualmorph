@@ -4,6 +4,7 @@ import './App.css';
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import { ChromePicker } from 'react-color';
+import ExampleMenu from './examplemenu';
 import SaveLoad from './saveload';
 
 import P5 from 'p5';
@@ -161,13 +162,16 @@ class App extends Component {
             style={{
               position:'absolute',
               top:'10px',
-              right:'160px',
-              width:'100px',
+              right:'240px',
+              width:'80px',
               height:'30px',
               fontSize: '15px',
               cursor: 'pointer'
             }}>
             About</div>
+
+          <ExampleMenu onChange={(st)=>{this.handleImport(st);}} />
+
           <SaveLoad value={{state:this.state}} onChange={(st)=>{this.handleImport(st);}} />
         </div>
 

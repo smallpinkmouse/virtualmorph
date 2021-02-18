@@ -14,6 +14,8 @@
  *
  */
 
+/* eslint-disable */
+
 //(function(global){
 //  var module = global.pnoise = {};
   var module = {};
