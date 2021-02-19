@@ -11,6 +11,19 @@ class SaveLoad extends React.Component {
     this.reader.onload = (e) => {
       const json = JSON.parse(e.target.result);
       if (this.props.onChange) {
+
+        // backward compatibility
+        if (!json.state.hasOwnProperty('colIris')) {
+          json.state['colIris'] = json.state['colEye'];
+        }
+        if (!json.state.hasOwnProperty('cpColIris')) {
+          json.state['cpColIris'] = false;
+        }
+        if (!json.state.hasOwnProperty('headStamp')) {
+          json.state['headStamp'] = 0;
+        }
+
+        // import data file
         this.props.onChange(json.state);
       }
     };
@@ -47,7 +60,7 @@ class SaveLoad extends React.Component {
           parent.removeChild(parent.firstChild);
         }
         var dialog = document.querySelector('#importdialog');
-        dialog.close();
+        this.close(dialog);
       }, 500);
     }, false);
   }
@@ -69,7 +82,6 @@ class SaveLoad extends React.Component {
     const div = document.createElement('div');
     const link = document.createElement('a');
     link.href = url;
-//    link.download = 'mymorph.json';
     link.download = data.state.morphName + '.json';
     link.innerHTML = 'download';
     div.appendChild(link);

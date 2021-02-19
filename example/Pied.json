@@ -8,6 +8,7 @@
     "bottomSize": 5,
     "dorsalBreak": 4,
     "dorsalWidth": 13,
+    "headStamp": 0,
     "pied": 3,
     "colBody": "#8e5454",
     "colBodyBack": "#4a2c32",
@@ -18,6 +19,7 @@
     "colBlotchDot": "#312121",
     "colDorsal": "#aa8262",
     "colEye": "#101010",
+    "colIris": "#101010",
     "colBackground": "#3a3a43",
     "colBackgroundRGBA": "rgba(58, 58, 67, 1)",
     "cpColBody": false,
@@ -29,7 +31,8 @@
     "cpColBlotchDot": false,
     "cpColDorsal": false,
     "cpColEye": false,
+    "cpColIris": false,
     "cpColBackground": false,
-    "timestamp": "20200427134835"
+    "timestamp": "20210219200941"
   }
 }
