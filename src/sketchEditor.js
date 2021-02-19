@@ -6,7 +6,6 @@ var lastState;
 
 const sketch = (p) => {
   p.setup = function() {
-    console.log('setup');
     let canvas = p.createCanvas(700, 200);
     canvas.parent('CanvasEditor');
     p.background(p.color(200, 200, 200));

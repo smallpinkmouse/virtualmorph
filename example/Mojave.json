@@ -8,16 +8,18 @@
     "bottomSize": 5,
     "dorsalBreak": 4,
     "dorsalWidth": 13,
+    "headStamp": 0,
     "pied": 0,
     "colBody": "#755a5a",
-    "colBodyBack": "#2f1d1d",
+    "colBodyBack": "#412929",
     "colBodyBelly": "#1e0a0a",
     "colBlotch": "#bfc57d",
     "colBlotchOutline": "#d2c6b4",
     "colBlotchBelly": "#c1b383",
-    "colBlotchDot": "#312121",
+    "colBlotchDot": "#462f2f",
     "colDorsal": "#aa8262",
     "colEye": "#101010",
+    "colIris": "#101010",
     "colBackground": "#f0f0f0",
     "colBackgroundRGBA": "rgba(240, 240, 240, 1)",
     "cpColBody": false,
@@ -29,7 +31,8 @@
     "cpColBlotchDot": false,
     "cpColDorsal": false,
     "cpColEye": false,
+    "cpColIris": false,
     "cpColBackground": false,
-    "timestamp": "20210218171913"
+    "timestamp": "20210219201935"
   }
 }
