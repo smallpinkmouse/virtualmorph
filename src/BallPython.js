@@ -1,7 +1,6 @@
 import pnoise from './perlin';
 
 var g_x;
-var g_timer;
 
 class Blotch {
   constructor(p5, x, y) {
@@ -61,11 +60,6 @@ class Blotch {
         } else {
           col = bellyColor;
         }
-
-//        col = blotchColor;
-//        col = p5.lerpColor(bellyColor, blotchColor, 0.5 + stemRate / 2);
-
-
 
       } else if (dist < stemSize + 5) {
         let rate = Math.pow((dist - stemSize) / 5, 0.5);
@@ -203,7 +197,6 @@ class BallPython {
 
   distance(x0, y0, x1, y1, size, cnst) {
     let offset = pnoise.perlin2(x0 / 50, y0 / 50) * this.PatternNoise;
-//    let offset = (this.p5.noise(x0 / 50, y0 / 50) - 0.5) * this.PatternNoise * 2;
 
     if (y0 > y1) {
       return Math.max(
@@ -268,7 +261,6 @@ class BallPython {
 
 
   drawDorsal(state) {
-//    if (this.blotches.length === 0) return;
 
     let colDorsal = this.p5.color(state.colDorsal);
     let dorsalWidth = state.dorsalWidth;
@@ -282,7 +274,6 @@ class BallPython {
     let width = this.bodyLength * this.scale;
     let height = dorsalWidth * this.scale;
 
-//    this.p5.randomSeed(0);
     let gaps = [];
     for (let i = 0; i < dorsalGap; i++) {
       gaps.push(this.p5.random() * (width - dorsalWidth * 2) + dorsalWidth);
@@ -307,7 +298,6 @@ class BallPython {
     for (let y = 0; y < height + 20; y++) {
       for (let x = 0; x < width; x++) {
         let offset = pnoise.perlin2(x / 50, y / 50) * state.distortion;
-//        let offset = (this.p5.noise(x / 50, y / 50) - 0.5) * state.distortion * 2;
         let isGap = (y + offset > dorsalWidth);
         for (let i = 0; i < dorsalGap; i += 2) {
           let dStart = gaps[i];
@@ -379,12 +369,10 @@ class BallPython {
     p5r.rect(0, 0, 500, 500);
 
     g_x = 0;
-    g_timer = setInterval(()=> {
+    let drawFunc = () => {
       let x = g_x;
 
       if (x >= this.bodyLength) {
-        clearInterval(g_timer);
-
         p5.push();
         p5.translate(410, 463);
         p5.rotate(p5.PI / 30);
@@ -414,15 +402,11 @@ class BallPython {
       document.querySelector('#progress').textContent = Math.floor(rate3 * 100) + '%';
 
       let rate2 = (rate3 > 0.7) ? this.lerp(1, 0.8, (rate3 - 0.7) / 0.3) : 1;
-//      let rate2 = (rate3 > 0.7) ? 0.5 : 1;
 
       let tail = (rate3 < 0.4) ? this.lerp(0, 1, rate3 / 0.4) : 1;
       let neck = (rate3 > 0.8) ? this.lerp(0, 1, rate3 / 0.8) : 1;
 
-//      for (let y = 0; y < 125; y++) {
       for (let y = 0; y < this.bodyHeight; y++) {
-        // let px = 50 + Math.sin(theta2) * 30 + x + Math.sin(theta1) * 50;
-        // let py = 400 - Math.cos(theta2) * 50 + Math.cos(theta1) * 100;
         px = 265 + Math.sin(theta1) * 0.35 * (x + y * 2 * tail + 500) * rate + 0 + 0 * (1 - tail) - 50 + 50 * neck;
         py = 255 + Math.cos(theta1) * 0.8 * (y * tail + 150) * rate + 50 - 50 * tail + 200 - 200 * neck;
 
@@ -435,20 +419,14 @@ class BallPython {
           }
         }
 
-//        let gy = Math.abs(-Math.sin(theta1 / 3 - ((1-rate2) * 5)) * 80 + y * 0.5  + 10 + Math.cos(theta1) * 40);
-//        let gy = Math.abs(-Math.sin(theta1 / 3 - ((1-rate2) * 20)) * 90 + y * 0.7  - 10 + Math.cos(theta1) * 50);
         let gy = Math.abs(-Math.sin(theta1 / 3 - (1-rate2) * 20) * 90 + y * 0.9  - 10 + Math.cos(theta1) * 70) + 0.5;
 
         let col = p5.get(this.x + (x * 4.5 * rate2) % this.bodyLength, this.y + gy);
 
         col = p5.lerpColor(p5.color(col), p5.color(0), gy / this.bodyHeight * 0.3);
 
-//        p5r.strokeWeight(5);
-//        p5r.stroke(col);
         p5r.fill(col);
-//        p5r.noFill();
         p5r.noStroke();
-//        p5r.point(px, py);
         p5r.ellipse(px, py, 4, 4);
       }
 
@@ -460,7 +438,10 @@ class BallPython {
       }
 
       g_x = x + 1;
-    }, 10);
+      setTimeout(drawFunc, 0);
+    };
+
+    setTimeout(drawFunc, 0);
   }
 
   drawHead(target, bodyColor, blotchColor, colEye, colIris, headStamp) {
@@ -470,7 +451,6 @@ class BallPython {
 
     let darkColor = p5.lerpColor(p5.color(bodyColor), p5.color(0), 0.1);
     let lightColor = p5.lerpColor(p5.color(blotchColor), p5.color(0), 0.1);
-    //let lightShadowColor = p5.lerpColor(p5.color(blotchColor), p5.color(0), 0.2);
 
     p5.noStroke();
 
