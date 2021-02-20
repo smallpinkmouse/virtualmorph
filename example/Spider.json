@@ -19,7 +19,7 @@
     "colBlotchDot": "#312121",
     "colDorsal": "#aa8262",
     "colEye": "#101010",
-    "colIris": "#41502b",
+    "colIris": "#5e5545",
     "colBackground": "#f0f0f0",
     "colBackgroundRGBA": "rgba(240, 240, 240, 1)",
     "cpColBody": false,
@@ -33,6 +33,6 @@
     "cpColEye": false,
     "cpColIris": false,
     "cpColBackground": false,
-    "timestamp": "20210219201814"
+    "timestamp": "20210220143610"
   }
 }

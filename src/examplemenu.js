@@ -187,7 +187,7 @@ class ExampleMenu extends React.Component {
         "cpColIris": false,
         "cpColBackground": false,
         "timestamp": "20210219204827"
-      },                  
+      },
       'Pied': {
         "morphName": "Pied",
         "dots": 2,
@@ -224,6 +224,43 @@ class ExampleMenu extends React.Component {
         "cpColBackground": false,
         "timestamp": "20210219200941"
       },
+      'Freeway': {
+        "morphName": "Freeway",
+        "dots": 2,
+        "distortion": 10,
+        "blotchSize": 0,
+        "blotchPos": 35,
+        "bottomSize": 5,
+        "dorsalBreak": 3,
+        "dorsalWidth": 13,
+        "headStamp": 2,
+        "pied": 0,
+        "colBody": "#d0ccab",
+        "colBodyBack": "#4a372c",
+        "colBodyBelly": "#a49e8e",
+        "colBlotch": "#c7b8a2",
+        "colBlotchOutline": "#d2c6b4",
+        "colBlotchBelly": "#c1b383",
+        "colBlotchDot": "#312121",
+        "colDorsal": "#c9c3a1",
+        "colEye": "#101010",
+        "colIris": "#101010",
+        "colBackground": "#f0f0f0",
+        "colBackgroundRGBA": "rgba(240, 240, 240, 1)",
+        "cpColBody": false,
+        "cpColBodyBack": false,
+        "cpColBodyBelly": false,
+        "cpColBlotch": false,
+        "cpColBlotchOutline": false,
+        "cpColBlotchBelly": false,
+        "cpColBlotchDot": false,
+        "cpColDorsal": false,
+        "cpColEye": false,
+        "cpColIris": false,
+        "cpColBackground": false,
+        "timestamp": "20210219234226"
+    
+      },
       'Clown': {
         "morphName": "Clown",
         "dots": 2,
@@ -244,7 +281,7 @@ class ExampleMenu extends React.Component {
         "colBlotchDot": "#312121",
         "colDorsal": "#aa8262",
         "colEye": "#000000",
-        "colIris": "#464619",
+        "colIris": "#7b7b4a",
         "colBackground": "#f0f0f0",
         "colBackgroundRGBA": "rgba(240, 240, 240, 1)",
         "cpColBody": false,
@@ -258,7 +295,7 @@ class ExampleMenu extends React.Component {
         "cpColEye": false,
         "cpColIris": false,
         "cpColBackground": false,
-        "timestamp": "20210219203535"
+        "timestamp": "20210220143444"
       },
       'Spider': {
         "morphName": "Spider",
@@ -280,7 +317,7 @@ class ExampleMenu extends React.Component {
         "colBlotchDot": "#312121",
         "colDorsal": "#aa8262",
         "colEye": "#101010",
-        "colIris": "#41502b",
+        "colIris": "#5e5545",
         "colBackground": "#f0f0f0",
         "colBackgroundRGBA": "rgba(240, 240, 240, 1)",
         "cpColBody": false,
@@ -294,7 +331,7 @@ class ExampleMenu extends React.Component {
         "cpColEye": false,
         "cpColIris": false,
         "cpColBackground": false,
-        "timestamp": "20210219201814"
+        "timestamp": "20210220143610"
       }
     };
     this.styles = {
@@ -379,6 +416,9 @@ class ExampleMenu extends React.Component {
             </div>
             <div style={this.styles.menuContent}>
               <div onClick={this.handleClickMenu.bind(this, 'Pied')}>Pied</div>
+            </div>
+            <div style={this.styles.menuContent}>
+              <div onClick={this.handleClickMenu.bind(this, 'Freeway')}>Freeway</div>
             </div>
             <div style={this.styles.menuContent}>
               <div onClick={this.handleClickMenu.bind(this, 'Clown')}>Clown</div>

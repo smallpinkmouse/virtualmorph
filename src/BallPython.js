@@ -600,12 +600,16 @@ class BallPython {
     p5.pop();
 
     // // eyes
-    p5.fill(colIris);
+    // outline
+    p5.fill(p5.color(0, 0, 0, 180));
     p5.ellipse(hx - 20, hy + 0, 15, 15);
-
+    // pupil
+    p5.fill(colIris);
+    p5.ellipse(hx - 20, hy + 0, 15-1, 15-1);
+    // iris
     p5.fill(colEye);
     p5.ellipse(hx - 20, hy + 0, 5, 12);
-
+    // high light
     p5.fill(255, 255, 255, 100);
     p5.ellipse(hx - 20 - 0, hy + 0 - 3, 8, 8);
 
